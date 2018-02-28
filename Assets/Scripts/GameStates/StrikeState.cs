@@ -13,9 +13,11 @@ namespace GameStates {
 
 		private float factor;
 		private GameObject imagePanel;
+		private LineRenderer line;
 
 		public StrikeState(MonoBehaviour parent) : base(parent) { 
 			gameController = (PoolGameController)parent;
+			gameController.gameState = StatesOfGame.STRIKE_STATE;
 			cue = gameController.cue;
 			cueBall = gameController.cueBall;
 			factor = gameController.factor;
@@ -24,6 +26,11 @@ namespace GameStates {
 			force = forceAmplitude * factor + gameController.minForce;
 			imagePanel = gameController.imagePanel;
 			imagePanel.SetActive (false);
+			PoolGameController.GameInstance.gameState= StatesOfGame.STRIKE_STATE;
+
+			line = cueBall.GetComponent<LineRenderer> ();
+			line.startWidth = 0;
+			line.endWidth = 0;
 		}
 
 		public override void FixedUpdate () {

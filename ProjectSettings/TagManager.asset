@@ -10,6 +10,10 @@ TagManager:
   - Slider
   - cueImage
   - imagePanel
+  - redball
+  - CueBall
+  - CueBallCanvas
+  - Timer
   layers:
   - Default
   - TransparentFX

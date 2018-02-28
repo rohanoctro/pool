@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AbstractGameObjectState : IGameObjectState {
+public abstract class AbstractGameObjectState :MonoBehaviour, IGameObjectState {
 	protected MonoBehaviour parent;
 	public AbstractGameObjectState(MonoBehaviour parent) {
 		this.parent = parent;

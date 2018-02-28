@@ -6,10 +6,10 @@ using System;
 
 
 public class DragEvent:EventArgs{
-	public int typeOfEvent;
-	public DragEvent(int typeOfEvent)
+	public Action action;
+	public DragEvent(Action action)
 	{
-		this.typeOfEvent = typeOfEvent;
+		this.action = action;
 	}
 
 }
@@ -29,7 +29,7 @@ public class EventScript : MonoBehaviour {
 	public void Awake()
 	{
 		Instance = this;
-		Debug.Log ("called ");
+		//Debug.Log ("called ");
 
 	}
 	#region DragEventsRegion
@@ -37,13 +37,13 @@ public class EventScript : MonoBehaviour {
 		public void OnDragBegin()
 		{
 			if (mouseEvent != null) {
-			mouseEvent (this,new DragEvent(0));
+			mouseEvent (this,new DragEvent(Action.MSG_DRAG_BEGIN_IMAGE));
 			}
 		}
 		public void OnDrag()
 		{
 			if (mouseEvent != null) {
-				mouseEvent (this, new DragEvent(1));
+			mouseEvent (this, new DragEvent(Action.MSG_DRAGGING_IMAGE));
 
 			}
 		}
@@ -51,7 +51,7 @@ public class EventScript : MonoBehaviour {
 		public void OnDragEnd()
 		{
 			if (mouseEvent != null) {
-				mouseEvent (this,new DragEvent(2));
+			mouseEvent (this,new DragEvent(Action.MSG_DRAG_END_IMAGE));
 			}	
 		}
 	#endregion
@@ -61,19 +61,19 @@ public class EventScript : MonoBehaviour {
 	public void OnMouseDown()
 	{
 		if (mouseEvent != null) {
-			mouseEvent (this,new DragEvent(3));
+			mouseEvent (this,new DragEvent(Action.MSG_MOUSE_DOWN_IMAGE));
 		}
 	}
 	public void OnMouseUp()
 	{
 		if (mouseEvent != null) {
-			mouseEvent (this, new DragEvent (4));
+			mouseEvent (this, new DragEvent (Action.MSG_MOUSE_UP_IMAGE));
 		}
 	}
 	public void OnMouseExit()
 	{
 		if (mouseEvent != null) {
-			mouseEvent (this, new DragEvent (5));
+			mouseEvent (this, new DragEvent (Action.MSG_MOUSE_LEAVES_IMAGE));
 		}
 	}
 
