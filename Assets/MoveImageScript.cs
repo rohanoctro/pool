@@ -106,7 +106,7 @@ public class MoveImageScript : MonoBehaviour {
 		case Action.MSG_DRAGGING_IMAGE:
 			{
 			//	Debug.LogError ("Dragging Image Constlantly ");
-				orignal.position = new Vector3 (orignal.position.x, Input.mousePosition.y, orignal.position.z);
+			//	orignal.position = new Vector3 (orignal.position.x, Input.mousePosition.y, orignal.position.z);
 				if (orignal.localPosition.y > 0)
 					orignal.position = orignalPosition;
 			//	Debug.Log (gameObject.GetComponent<RectTransform> ().localPosition);
@@ -144,11 +144,11 @@ public class MoveImageScript : MonoBehaviour {
 						Debug.LogError (factor);
 						PlayerPrefs.SetFloat ("factor", factor);
 						orignal.position = new Vector3 (orignal.position.x, orignal.position.y + deltaY, orignal.position.z);
-						Vector3 direction=(cueBall.transform.position-cue.transform.position).normalized;
-						float factor2 = (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE)*factor
-							+ PoolGameController.MIN_DISTANCE;
-						Debug.LogError (factor2);
-						cue.transform.position = cueBall.transform.position - factor2 * direction;
+//						Vector3 direction=(cueBall.transform.position-cue.transform.position).normalized;
+//						float factor2 = (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE)*factor
+//							+ PoolGameController.MIN_DISTANCE;
+//						Debug.LogError (factor2);
+//						cue.transform.position = cueBall.transform.position - factor2 * direction;
 
 
 							
@@ -160,7 +160,7 @@ public class MoveImageScript : MonoBehaviour {
 					}
 
 				}
-				else 
+			//	else 
 				{
 					float deltaY = orignal.localPosition.y;
 					float factor = deltaY;
@@ -201,8 +201,11 @@ public class MoveImageScript : MonoBehaviour {
 			{
 				
 				//Store initial mouse position
-
+				#if UNITY_EDITOR
 				mousePosition = Input.mousePosition;
+				#else
+				mousePosition=Input.GetTouch(0).position;
+				#endif
 				if (handler != null) {
 					handler (this, new DragEnded (false, Action.MSG_MOUSE_DOWN_IMAGE));
 				}
