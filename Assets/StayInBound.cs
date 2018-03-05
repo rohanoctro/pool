@@ -133,6 +133,9 @@ public class StayInBound : MonoBehaviour {
 
 	public void OnCollisionEnter(Collision col)
 	{
+		if (col.collider.gameObject.tag == "redball") {
+			PoolGameController.GameInstance.check2 = 0;
+		}
 		if (col.collider.gameObject.tag == "redball" && col.collider.gameObject.name==isCollidingWith) {
 			//Add force Logic 
 			velocityBeforeCollisionCueBall=new Velocity(gameObject.GetComponent<Rigidbody>().velocity);

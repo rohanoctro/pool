@@ -19,4 +19,7 @@ public class OnClickButtonEventsScript : MonoBehaviour {
 			yield return null;
 		}
 	}
+	void Update()
+	{
+	}
 }

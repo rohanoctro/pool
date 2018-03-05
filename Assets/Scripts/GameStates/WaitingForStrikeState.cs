@@ -16,6 +16,9 @@ namespace GameStates {
 		private const float X=8;
 		private const float Z=18;
 	
+		private const float firstX=8;
+		private const float firstZMIN=-18;
+		private const float firstZMAX=-12;
 
 		private Vector3 preDirection=Vector3.zero;
 		private RaycastHit hit;
@@ -197,7 +200,8 @@ namespace GameStates {
 			{	MoveImageScript.Instance.handler+=OnDragEvent;
 				found = true;
 			}
-			if (gameController.cueBallWasPotted == true) {
+			if(Time.timeScale!=0){
+			if (gameController.cueBallWasPotted == true || gameController.check2==1) {
 
 
 				gameController.cueBallCanvas.SetActive (true);
@@ -215,17 +219,38 @@ namespace GameStates {
 				gameController.cueBallCanvas.transform.position = Input.mousePosition;
 				Vector3 position = Camera.main.ScreenToWorldPoint(gameController.cueBallCanvas.transform.position);
 				position = new Vector3 (position.x,0.5354336f,position.z);
-				if (position.x >= X) {
-					position.x = X;
-				}
-				if (position.z >= Z) {
-					position.z = Z;
-				}
-				if (position.x <= (-1)*X) {
-					position.x = (-1) * X;
-				}
-				if (position.z <= (-1) * Z) {
-					position.z = (-1) * Z;
+
+
+				if (PoolGameController.GameInstance.isFirstTime == true)
+				{
+					if (position.x >= firstX) {
+						position.x = firstX;
+					}
+					if (position.x <= (-1) * firstX) {
+						position.x = (-1)*firstX;
+					}
+					if (position.z >= firstZMAX) {
+						position.z = firstZMAX;
+					}
+					if (position.z <= firstZMIN) {
+						position.z = firstZMIN;
+					}
+				} 
+				else
+				{
+
+					if (position.x >= X) {
+						position.x = X;
+					}
+					if (position.z >= Z) {
+						position.z = Z;
+					}
+					if (position.x <= (-1) * X) {
+						position.x = (-1) * X;
+					}
+					if (position.z <= (-1) * Z) {
+						position.z = (-1) * Z;
+					}
 				}
 				cueBall.transform.position = position;
 
@@ -237,26 +262,29 @@ namespace GameStates {
 			
 			
 			}
-			if (timer <= 0)
-				timer = 0;
-			if (k == 0) {
-				ScoreController.Instance.player1.text=timer.ToString ();
-			} else if (k == 1) {
-				ScoreController.Instance.player2.text= timer.ToString ();
-			}
 
-			if (timer > 0) {
-				timer -= Time.deltaTime;
+			
+		//		int timer2 = Mathf.FloorToInt (timer);
+		//	if (timer <= 0)
+		//		timer = 0;
+		//	if (k == 0) {
+		//			ScoreController.Instance.player1.text = PoolGameController.GameInstance.t.Minutes.ToString()+":"+PoolGameController.GameInstance.t.Seconds.ToString ();
+		//	} else if (k == 1) {
+		//			ScoreController.Instance.player2.text= PoolGameController.GameInstance.t.Minutes.ToString()+":"+PoolGameController.GameInstance.t.Seconds.ToString ();
+		//	}
+
+		//	if (timer > 0) {
+		//		timer -= Time.deltaTime;
 				//int tu;
-				text.text = "Timer:" + timer.ToString();
-			}
-			if (timer <= 0) {
-				timer = 30.0f;
-				text.text="Timer:0.0";
-				var temp = PoolGameController.GameInstance.CurrentPlayer;
-				PoolGameController.GameInstance.CurrentPlayer = PoolGameController.GameInstance.OtherPlayer;
-				PoolGameController.GameInstance.OtherPlayer = temp;
-			}
+			//		text.text = "Timer:" + PoolGameController.GameInstance.t.Minutes.ToString()+":"+PoolGameController.GameInstance.t.Seconds.ToString ();
+		//	}
+		////	if (timer <= 0) {
+		//		timer = 30.0f;
+		//		text.text="Timer:0.0";
+		//		var temp = PoolGameController.GameInstance.CurrentPlayer;
+			//	PoolGameController.GameInstance.CurrentPlayer = PoolGameController.GameInstance.OtherPlayer;
+		//		PoolGameController.GameInstance.OtherPlayer = temp;
+		//	}
 
 
 
@@ -336,7 +364,7 @@ namespace GameStates {
 			{
 				isFirstTouch = false;
 			}
-		}
+			}}
 		public float rotate(){
 			return 0.0f;
 		}

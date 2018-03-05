@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour {
 	public Text player1;
-	public Text player2;
+	//public Text player2;
 	private Player Player1;
-	private Player Player2;
+	//private Player Player2;
+
+
+	public Text text;
+
 
 
 	float timer=15.0f;
@@ -28,37 +32,46 @@ public class ScoreController : MonoBehaviour {
 	}
 	void Start () {
 
-
+		Player1 = PoolGameController.GameInstance.CurrentPlayer;
+		text = GameObject.FindGameObjectWithTag ("Timer").GetComponent<Text> ();
 
 	}
 
 	
 	// Update is called once per frame
 	void Update () {
-		if (PoolGameController.GameInstance.CurrentPlayer != null && c1 == 0) {
-			Player1 = PoolGameController.GameInstance.CurrentPlayer;
-			c1 = 1;
-		}
-		if (PoolGameController.GameInstance.OtherPlayer != null && c2==0) {
-			Player2 = PoolGameController.GameInstance.OtherPlayer;
-			c2 = 1;
-		}
+
+		player1.text = Player1.Name + ":" + Player1.Points.ToString ();
+		float minutes = PoolGameController.GameInstance.t.Minutes;
+		float seconds = PoolGameController.GameInstance.t.Seconds;
+
+		string time = minutes.ToString () + ":"+(seconds<10?"0"+seconds.ToString():seconds.ToString());
+		text.text = time;
+
+	//	if (PoolGameController.GameInstance.CurrentPlayer != null && c1 == 0) {
+		//	Player1 = PoolGameController.GameInstance.CurrentPlayer;
+		//	c1 = 1;
+	//	}
+	//	if (PoolGameController.GameInstance.OtherPlayer != null && c2==0) {
+		//	Player2 = PoolGameController.GameInstance.OtherPlayer;
+		//	c2 = 1;
+		//}
 		//var text = GetComponent<UnityEngine.UI.Text>();
-		var currentPlayer = PoolGameController.GameInstance.CurrentPlayer;
-		var otherPlayer = PoolGameController.GameInstance.OtherPlayer;
+	//	var currentPlayer = PoolGameController.GameInstance.CurrentPlayer;
+	//	var otherPlayer = PoolGameController.GameInstance.OtherPlayer;
 	//	text.text = String.Format("* {0} - {1}\n{2} - {3}", currentPlayer.Name, currentPlayer.Points, otherPlayer.Name, otherPlayer.Points);
-		player1.text = Player1.Name+":"+Player1.Points.ToString();
-		player2.text = Player2.Name + ":" + Player2.Points.ToString ();
+	//	player1.text = Player1.Name+":"+Player1.Points.ToString();
+	//	player2.text = Player2.Name + ":" + Player2.Points.ToString ();
 
 
-		if (Player1 == PoolGameController.GameInstance.CurrentPlayer) {
-			player1.GetComponentInParent<Image> ().color = Color.green;
-			player2.GetComponentInParent<Image> ().color = Color.white;
-		}
-		else if (Player2 == PoolGameController.GameInstance.CurrentPlayer) {
-			player2.GetComponentInParent<Image> ().color = Color.green;
-			player1.GetComponentInParent<Image> ().color = Color.white;
-		}
+	//	if (Player1 == PoolGameController.GameInstance.CurrentPlayer) {
+	//		player1.GetComponentInParent<Image> ().color = Color.green;
+	//		player2.GetComponentInParent<Image> ().color = Color.white;
+		//}
+	//	else if (Player2 == PoolGameController.GameInstance.CurrentPlayer) {
+	//		player2.GetComponentInParent<Image> ().color = Color.green;
+	//		player1.GetComponentInParent<Image> ().color = Color.white;
+	//	}
 
 
 	/*	if (Player1 == PoolGameController.GameInstance.CurrentPlayer) {

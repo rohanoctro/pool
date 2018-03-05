@@ -51,12 +51,12 @@ namespace GameStates {
 						return;
 				}
 				if (PoolGameController.GameInstance.check == 1) {
-					PoolGameController.GameInstance.check = 0;
-					PoolGameController.GameInstance.currentPlayerContinuesToPlay = false;
+						PoolGameController.GameInstance.check = 0;
+						PoolGameController.GameInstance.currentPlayerContinuesToPlay = false;
 
 				}
 
-				gameController.NextPlayer();
+			//	gameController.NextPlayer();
 
 				// If all balls are sleeping, time for the next turn
 				// This is kinda hacky but gets the job done

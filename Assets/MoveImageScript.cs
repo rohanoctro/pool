@@ -88,42 +88,36 @@ public class MoveImageScript : MonoBehaviour {
 	
 	private void dragMe(object sender,EventArgs arguments){
 		
-		//gameObject.GetComponent<RectTransform> ().position = new Vector3 (gameObject.GetComponent<RectTransform>().position.x,Input.mousePosition.y,gameObject.GetComponent<RectTransform>().position.z);
-		DragEvent drag=(DragEvent)arguments;
-		switch (drag.action) {
-		case Action.MSG_DRAG_BEGIN_IMAGE://DragBegan 
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (false,Action.NONE));
-				}
-				//	Debug.Log ("Drag Began ");
-				cue=PoolGameController.GameInstance.cue;
-				cueBall=PoolGameController.GameInstance.cueBall;
-
-
-				break;
-			}
-		case Action.MSG_DRAGGING_IMAGE:
-			{
-			//	Debug.LogError ("Dragging Image Constlantly ");
-			//	orignal.position = new Vector3 (orignal.position.x, Input.mousePosition.y, orignal.position.z);
-				if (orignal.localPosition.y > 0)
-					orignal.position = orignalPosition;
-			//	Debug.Log (gameObject.GetComponent<RectTransform> ().localPosition);
-			///	Debug.Log (orignal.localPosition);
-			//	Debug.Log (orignal.position);
-			//	debugger.GetComponent<Text>().text=Input.touches.Length.ToString();
-
-
-
-
-
-
-
-
-
-				if (Input.touches.Length > 0) 
+		if (Time.timeScale != 0) {
+			//gameObject.GetComponent<RectTransform> ().position = new Vector3 (gameObject.GetComponent<RectTransform>().position.x,Input.mousePosition.y,gameObject.GetComponent<RectTransform>().position.z);
+			DragEvent drag = (DragEvent)arguments;
+			switch (drag.action) {
+			case Action.MSG_DRAG_BEGIN_IMAGE://DragBegan 
 				{
+					if (handler != null) {
+						handler (this, new DragEnded (false, Action.NONE));
+					}
+					//	Debug.Log ("Drag Began ");
+					cue = PoolGameController.GameInstance.cue;
+					cueBall = PoolGameController.GameInstance.cueBall;
+
+
+					break;
+				}
+			case Action.MSG_DRAGGING_IMAGE:
+				{
+					//	Debug.LogError ("Dragging Image Constlantly ");
+
+					#if UNITY_EDITOR
+					orignal.position = new Vector3 (orignal.position.x, Input.mousePosition.y, orignal.position.z);
+					#else
+					#endif
+					if (orignal.localPosition.y > 0)
+						orignal.position = orignalPosition;
+					//	Debug.Log (gameObject.GetComponent<RectTransform> ().localPosition);
+					///	Debug.Log (orignal.localPosition);
+					//	Debug.Log (orignal.position);
+					//	debugger.GetComponent<Text>().text=Input.touches.Length.ToString();
 
 
 
@@ -131,19 +125,27 @@ public class MoveImageScript : MonoBehaviour {
 
 
 
-					if (Input.GetTouch (0).phase == TouchPhase.Moved) 
-					{
-						//			debugger.GetComponent<Text>().text += Input.GetTouch (0).deltaPosition.ToString();
-						float deltaY = Input.GetTouch (0).deltaPosition.y;
-						float factor = deltaY;
-						if (factor < 0)
-						{
-							factor = (-1) * factor;
-						}
-						factor = factor / 1000.0f;
-						Debug.LogError (factor);
-						PlayerPrefs.SetFloat ("factor", factor);
-						orignal.position = new Vector3 (orignal.position.x, orignal.position.y + deltaY, orignal.position.z);
+
+
+					if (Input.touches.Length > 0) {
+
+
+
+
+
+
+
+						if (Input.GetTouch (0).phase == TouchPhase.Moved) {
+							//			debugger.GetComponent<Text>().text += Input.GetTouch (0).deltaPosition.ToString();
+							float deltaY = Input.GetTouch (0).deltaPosition.y;
+							float factor = deltaY;
+							if (factor < 0) {
+								factor = (-1) * factor;
+							}
+							factor = factor / 1000.0f;
+							Debug.LogError (factor);
+							PlayerPrefs.SetFloat ("factor", factor);
+							orignal.position = new Vector3 (orignal.position.x, orignal.position.y + deltaY, orignal.position.z);
 //						Vector3 direction=(cueBall.transform.position-cue.transform.position).normalized;
 //						float factor2 = (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE)*factor
 //							+ PoolGameController.MIN_DISTANCE;
@@ -157,24 +159,23 @@ public class MoveImageScript : MonoBehaviour {
 					
 					
 			
-					}
+						}
 
-				}
-			//	else 
-				{
-					float deltaY = orignal.localPosition.y;
-					float factor = deltaY;
-					if (factor < 0) 
-					{
-						factor = factor *(-1);
 					}
-					factor = factor / 1000.0f;
-				//	Debug.LogError (factor);
-					Vector3 direction=(cueBall.transform.position-cue.transform.position).normalized;
-					float factor2 = (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE)*factor
-					               + PoolGameController.MIN_DISTANCE;
-	//				Debug.LogError (factor2);
-					cue.transform.position = cueBall.transform.position - factor2 * direction;
+					//	else 
+					{
+						float deltaY = orignal.localPosition.y;
+						float factor = deltaY;
+						if (factor < 0) {
+							factor = factor * (-1);
+						}
+						factor = factor / 1000.0f;
+						//	Debug.LogError (factor);
+						Vector3 direction = (cueBall.transform.position - cue.transform.position).normalized;
+						float factor2 = (PoolGameController.MAX_DISTANCE - PoolGameController.MIN_DISTANCE) * factor
+						                + PoolGameController.MIN_DISTANCE;
+						//				Debug.LogError (factor2);
+						cue.transform.position = cueBall.transform.position - factor2 * direction;
 
 
 
@@ -184,138 +185,144 @@ public class MoveImageScript : MonoBehaviour {
 
 
 
-				}
-				if (handler != null) 
-				{
-					handler (this, new DragEnded (false,Action.NONE));
-				}
-				//	Debug.Log ("Constantly dragging ");
-				break;
-			}
-		case Action.MSG_DRAG_END_IMAGE:
-			{
-
-				break;
-			}
-		case Action.MSG_MOUSE_DOWN_IMAGE:
-			{
+					}
+					if (handler != null) {
+						handler (this, new DragEnded (false, Action.NONE));
+					}
+					//	Debug.Log ("Constantly dragging ");
 				
-				//Store initial mouse position
-				#if UNITY_EDITOR
-				mousePosition = Input.mousePosition;
-				#else
-				mousePosition=Input.GetTouch(0).position;
-				#endif
-				if (handler != null) {
-					handler (this, new DragEnded (false, Action.MSG_MOUSE_DOWN_IMAGE));
+					break;
+				
 				}
+			case Action.MSG_DRAG_END_IMAGE:
+				{
+
+					break;
+				}
+			case Action.MSG_MOUSE_DOWN_IMAGE:
+				{
+				
+					//Store initial mouse position
+					#if UNITY_EDITOR
+					mousePosition = Input.mousePosition;
+					#else
+				mousePosition=Input.GetTouch(0).position;
+					#endif
+					if (handler != null) {
+						handler (this, new DragEnded (false, Action.MSG_MOUSE_DOWN_IMAGE));
+					}
 
 
-				break;	
-			}
-		case Action.MSG_MOUSE_UP_IMAGE:
-			{
-				float factor = orignal.localPosition.y;
-				if (factor < 0)
-					factor = (-1) * factor;
-				factor = factor / 1000.0f;
+					break;	
+				}
+			case Action.MSG_MOUSE_UP_IMAGE:
+				{
+					float factor = orignal.localPosition.y;
+					if (factor < 0)
+						factor = (-1) * factor;
+					factor = factor / 1000.0f;
 
-				PlayerPrefs.SetFloat ("factor", factor);
+					PlayerPrefs.SetFloat ("factor", factor);
 			
 					isFirstTouch = false;
 
 			
-				if (handler != null) {
-					handler (this, new DragEnded (true,Action.MSG_MOUSE_UP_IMAGE));
+					if (handler != null) {
+						handler (this, new DragEnded (true, Action.MSG_MOUSE_UP_IMAGE));
+					}
+					if (factor != 0) {
+						PoolGameController.GameInstance.factor = factor;
+						StayInBound.factor = factor;
+						PoolGameController.GameInstance.cueBallWasPotted = false;
+						PoolGameController.GameInstance.check2 = 1;
+						PoolGameController.GameInstance.cueBallCanvas.SetActive (false);
+						if (PoolGameController.GameInstance.isFirstTime == true)
+							PoolGameController.GameInstance.isFirstTime = false;
+
+						PoolGameController.GameInstance.currentState = new GameStates.StrikingState (PoolGameController.GameInstance);
+
+					}
+					orignal.position = orignalPosition;
+
+					break;
 				}
-				if (factor != 0) {
-					PoolGameController.GameInstance.factor = factor;
-					StayInBound.factor=factor;
-					PoolGameController.GameInstance.cueBallWasPotted = false;
-					PoolGameController.GameInstance.cueBallCanvas.SetActive (false);
-					PoolGameController.GameInstance.currentState=new GameStates.StrikingState(PoolGameController.GameInstance);
-
+			case Action.MSG_MOUSE_LEAVES_IMAGE:
+				{
+					//Debug.Log ("Mouse exits ");
+					//orignal.position = orignalPosition;
+					break;
 				}
-				orignal.position = orignalPosition;
+			case Action.MSG_MOUSE_DOWN_TABLE:
+				{
+					handler (this, new DragEnded (true, Action.MSG_MOUSE_DOWN_TABLE));
+					break;
+				}
+			case Action.MSG_MOUSE_UP_TABLE:
+				{
+					handler (this, new DragEnded (true, Action.MSG_MOUSE_UP_TABLE));
+					break;
+				}
 
-				break;
-			}
-		case Action.MSG_MOUSE_LEAVES_IMAGE:
-			{
-				//Debug.Log ("Mouse exits ");
-				orignal.position = orignalPosition;
-				break;
-			}
-		case Action.MSG_MOUSE_DOWN_TABLE:
-			{
-				handler (this, new DragEnded (true,Action.MSG_MOUSE_DOWN_TABLE));
-				break;
-			}
-		case Action.MSG_MOUSE_UP_TABLE:
-			{
-				handler (this, new DragEnded (true,Action.MSG_MOUSE_UP_TABLE));
-				break;
-			}
-
-		//Canvas Events......
+			//Canvas Events......
 
 		
-		case Action.MSG_MOUSE_CANVAS_DOWN:
-			{
-				if (handler != null) {
+			case Action.MSG_MOUSE_CANVAS_DOWN:
+				{
+					if (handler != null) {
 					
-					handler (this, new DragEnded (false,Action.MSG_MOUSE_CANVAS_DOWN));
-					Debug.LogError ("CANVAS IS IN PLACEEE");
+						handler (this, new DragEnded (false, Action.MSG_MOUSE_CANVAS_DOWN));
+						Debug.LogError ("CANVAS IS IN PLACEEE");
+					}
+					break;
 				}
-				break;
-			}
-		case Action.MSG_MOUSE_CANVAS_STAY:
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (false,Action.MSG_MOUSE_CANVAS_STAY));
+			case Action.MSG_MOUSE_CANVAS_STAY:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (false, Action.MSG_MOUSE_CANVAS_STAY));
+					}
+					break;
 				}
-				break;
-			}
-		case Action.MSG_MOUSE_CANVAS_UP:
-			{
-				if (handler != null) {
-					handler(this,new DragEnded(true,Action.MSG_MOUSE_CANVAS_UP));
+			case Action.MSG_MOUSE_CANVAS_UP:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (true, Action.MSG_MOUSE_CANVAS_UP));
+					}
+					break;
 				}
-				break;
-			}
 
-		// Cue Ball Canvas Events
-		case Action.MSG_MOUSE_CUE_BALL_CANVAS_DOWN:
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (false, Action.MSG_MOUSE_CUE_BALL_CANVAS_DOWN));
+			// Cue Ball Canvas Events
+			case Action.MSG_MOUSE_CUE_BALL_CANVAS_DOWN:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (false, Action.MSG_MOUSE_CUE_BALL_CANVAS_DOWN));
+					}
+					break;
 				}
-				break;
-			}
-		case Action.MSG_MOUSE_CUE_BALL_CANVAS_UP:
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (true, Action.MSG_MOUSE_CUE_BALL_CANVAS_UP));
+			case Action.MSG_MOUSE_CUE_BALL_CANVAS_UP:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (true, Action.MSG_MOUSE_CUE_BALL_CANVAS_UP));
+					}
+					break;
 				}
-				break;
-			}
 			//Region tracker
 
-		case Action.MSG_MOUSE_INSIDE_REGION:
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (true ,Action.MSG_MOUSE_INSIDE_REGION));
+			case Action.MSG_MOUSE_INSIDE_REGION:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (true, Action.MSG_MOUSE_INSIDE_REGION));
+					}
+					break;
 				}
-				break;
-			}
-		case Action.MSG_MOUSE_OUTSIDE_REGION:
-			{
-				if (handler != null) {
-					handler (this, new DragEnded (true,Action.MSG_MOUSE_OUTSIDE_REGION));
+			case Action.MSG_MOUSE_OUTSIDE_REGION:
+				{
+					if (handler != null) {
+						handler (this, new DragEnded (true, Action.MSG_MOUSE_OUTSIDE_REGION));
+					}
+					break;
 				}
-				break;
-			}
 	
+			}
 		}
 	}
 
